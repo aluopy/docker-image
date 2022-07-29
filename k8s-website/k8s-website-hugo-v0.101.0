@@ -1,0 +1,2 @@
+FROM gcr.io/k8s-staging-sig-docs/k8s-website-hugo:v0.101.0-215aaa9df947
+MAINTAINER aluopy <aluopy@qq.com>
