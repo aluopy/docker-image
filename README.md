@@ -17,3 +17,11 @@ registry.cn-shenzhen.aliyuncs.com/aluopy/ingress-nginx-controller:v1.4.0
 registry.k8s.io/ingress-nginx/kube-webhook-certgen:v20220916-gd32f8c343@sha256:39c5b2e3310dc4264d638ad28d9d1d96c4cbb2b2dcfb52368fe4e3c63f61e10f
 registry.cn-shenzhen.aliyuncs.com/aluopy/ingress-nginx-kube-webhook-certgen:v20220916-gd32f8c343
 ```
+## kube-vip-cloud-provider
+```
+ghcr.io/kube-vip/kube-vip-cloud-provider:v0.0.3
+registry.cn-shenzhen.aliyuncs.com/aluopy/kube-vip-cloud-provider:v0.0.3
+
+ghcr.io/kube-vip/kube-vip-cloud-provider:v0.0.4
+registry.cn-shenzhen.aliyuncs.com/aluopy/kube-vip-cloud-provider:v0.0.4
+```
