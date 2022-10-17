@@ -1,2 +1,0 @@
-FROM jenkins/jenkins:2.361.2-lts-alpine
-COPY install-plugins.sh /usr/share/jenkins/ref/plugins/
