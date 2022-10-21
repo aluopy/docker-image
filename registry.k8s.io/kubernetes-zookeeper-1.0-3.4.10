@@ -1,0 +1,1 @@
+FROM registry.k8s.io/kubernetes-zookeeper:1.0-3.4.10
