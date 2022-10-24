@@ -26,6 +26,7 @@ ghcr.io/kube-vip/kube-vip-cloud-provider:v0.0.4
 registry.cn-shenzhen.aliyuncs.com/aluopy/kube-vip-cloud-provider:v0.0.4
 ```
 ## postgres
+Set locale to `zh_CN.UTF-8`
 ```
 postgres:15.0-bullseye
 registry.cn-shenzhen.aliyuncs.com/aluopy/postgres:15.0-bullseye
