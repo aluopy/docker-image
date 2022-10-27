@@ -16,7 +16,7 @@ ARG GLIBC_RUL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download
 # Install 
 RUN echo -e "http://mirrors.aliyun.com/alpine/v3.16/main\nhttp://mirrors.aliyun.com/alpine/v3.16/community" > /etc/apk/repositories && \
     apk update && \
-    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    cp Shanghai /etc/localtime && \
     wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
     wget ${GLIBC_RUL}/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk && \
     wget ${GLIBC_RUL}/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk && \
