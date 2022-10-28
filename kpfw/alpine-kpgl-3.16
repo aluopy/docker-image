@@ -13,12 +13,15 @@ ENV JAVA_SHA256_SUM    f909ca3041613e777cbd67a58808e63b5ad6bf6cfa4f9c5ee712fc878
 ENV TOMCAT_VERSION_MAJOR 9
 ENV TOMCAT_VERSION_FULL  9.0.68
 
+# Only once
+ARG AuthParam=1666932824_1114b913cb1a0e93c5ac5c8079ecffd7
+
 # Download and install
 # otn-pub --> otn
 # echo "$JAVA_SHA256_SUM  java.tar.gz" | sha256sum -c -
-RUN wget --no-check-certificate -c --header "Cookie: oraclelicense=accept-securebackup-cookie" -O java.tar.gz\
-    http://download.oracle.com/otn/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_URL_ELEMENT}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz && \
-
+RUN wget -O java.tar.gz\
+    http://download.oracle.com/otn/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_URL_ELEMENT}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz?AuthParam=${AuthParam} && \
+    echo "$JAVA_SHA256_SUM  java.tar.gz" | sha256sum -c - && \
     gunzip -c java.tar.gz | tar -xf - -C /usr/local && rm -f java.tar.gz && \
     ln -s /usr/local/${JAVA_PACKAGE}1.${JAVA_VERSION_MAJOR}.0_${JAVA_VERSION_MINOR} /usr/local/${JAVA_PACKAGE} && \
     rm -rf /usr/local/jdk/COPYRIGHT \
