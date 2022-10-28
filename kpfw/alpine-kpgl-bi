@@ -1,4 +1,4 @@
-FROM aluopy/alpine-glibc:3.15
+FROM aluopy/alpine-glibc:3.16
 MAINTAINER aluopy <aluopy@qq.com>
 
 # Java Version
