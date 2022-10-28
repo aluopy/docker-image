@@ -17,8 +17,6 @@ ENV TOMCAT_VERSION_FULL  9.0.68
 ARG AuthParam=1666932824_1114b913cb1a0e93c5ac5c8079ecffd7
 
 # Download and install
-# otn-pub --> otn
-# echo "$JAVA_SHA256_SUM  java.tar.gz" | sha256sum -c -
 RUN wget -O java.tar.gz\
     http://download.oracle.com/otn/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_URL_ELEMENT}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz?AuthParam=${AuthParam} && \
     echo "$JAVA_SHA256_SUM  java.tar.gz" | sha256sum -c - && \
@@ -60,11 +58,10 @@ RUN wget -O java.tar.gz\
     wget http://mirrors.standaloneinstaller.com/apache/tomcat/tomcat-${TOMCAT_VERSION_MAJOR}/v${TOMCAT_VERSION_FULL}/bin/apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz && \
     wget https://www.apache.org/dist/tomcat/tomcat-${TOMCAT_VERSION_MAJOR}/v${TOMCAT_VERSION_FULL}/bin/apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz.sha512 && \
     sha512sum -c apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz.sha512 && \
-    mkdir /apps /home/sdzfp -p && \
+    mkdir /apps && \
     gunzip -c apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz | tar -xf - -C /apps && \
     mv /apps/apache-tomcat-${TOMCAT_VERSION_FULL} /apps/tomcat && \
     rm -f apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz.sha512 && \
-    ln -s /apps/tomcat /home/sdzfp/dtomcat-kpgl-8081 && \
     rm -rf /apps/tomcat/webapps/* \
            /apps/tomcat/BUILDING.txt \
            /apps/tomcat/*.md \
