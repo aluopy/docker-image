@@ -2,7 +2,8 @@ FROM alpine:3.16.2
 MAINTAINER aluopy <aluopy@qq.com>
 
 # Glibc Version
-ENV GLIBC_VERSION 2.35-r0
+#ENV GLIBC_VERSION 2.35-r0 (no lib64/ld-linux-x86-64.so.2)
+ENV GLIBC_VERSION 2.34-r0
 
 # glibc download url
 ARG GLIBC_RUL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download
