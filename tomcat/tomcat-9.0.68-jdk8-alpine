@@ -48,7 +48,7 @@ RUN echo -e "http://mirrors.aliyun.com/alpine/v3.16/main\nhttp://mirrors.aliyun.
     gunzip -c apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz | tar -xf - -C /apps && \
     mv /apps/apache-tomcat-${TOMCAT_VERSION_FULL} /apps/tomcat && \
     rm -rf apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz \
-	   apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz.sha512 \
+           apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz.sha512 \
            /apps/tomcat/webapps/* \
            /apps/tomcat/BUILDING.txt \
            /apps/tomcat/*.md \
