@@ -1,0 +1,74 @@
+FROM alpine:3.16.2
+MAINTAINER aluopy <aluopy@qq.com>
+
+# Glibc Version
+#ENV GLIBC_VERSION 2.35-r0 (no lib64/ld-linux-x86-64.so.2)
+ENV GLIBC_VERSION 2.34-r0
+
+# Glibc Download Url
+#ARG GLIBC_RUL=https://luojianjun.cn/pkgs/alpine-pkg-glibc
+ARG GLIBC_RUL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download
+
+# Local Glibc
+#COPY glibc-${GLIBC_VERSION}.apk .
+#COPY glibc-bin-${GLIBC_VERSION}.apk .
+#COPY glibc-i18n-${GLIBC_VERSION}.apk .
+
+# Java Version
+#ENV JAVA_VERSION 11
+ENV JAVA_VERSION 8
+
+# Tomcat Version
+ENV TOMCAT_VERSION_MAJOR 9
+ENV TOMCAT_VERSION_FULL  9.0.68
+
+# Install 
+RUN echo -e "http://mirrors.aliyun.com/alpine/v3.16/main\nhttp://mirrors.aliyun.com/alpine/v3.16/community" > /etc/apk/repositories && \
+    apk update && \
+    apk add tzdata && \
+    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone && \
+    apk del tzdata && \
+    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+    wget ${GLIBC_RUL}/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk && \
+    wget ${GLIBC_RUL}/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk && \
+    wget ${GLIBC_RUL}/${GLIBC_VERSION}/glibc-i18n-${GLIBC_VERSION}.apk && \
+    apk add glibc-${GLIBC_VERSION}.apk glibc-bin-${GLIBC_VERSION}.apk glibc-i18n-${GLIBC_VERSION}.apk && \
+    /usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8 && \
+    ln -s /usr/glibc-compat/bin/locale /usr/local/bin/locale && \
+    rm /etc/apk/keys/sgerrand.rsa.pub && \
+    rm -rf glibc-${GLIBC_VERSION}.apk glibc-bin-${GLIBC_VERSION}.apk glibc-i18n-${GLIBC_VERSION}.apk && \
+    apk add openjdk${JAVA_VERSION} && \
+    wget http://mirrors.standaloneinstaller.com/apache/tomcat/tomcat-${TOMCAT_VERSION_MAJOR}/v${TOMCAT_VERSION_FULL}/bin/apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz && \
+    wget https://www.apache.org/dist/tomcat/tomcat-${TOMCAT_VERSION_MAJOR}/v${TOMCAT_VERSION_FULL}/bin/apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz.sha512 && \
+    sha512sum -c apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz.sha512 && \
+    mkdir /apps && \
+    gunzip -c apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz | tar -xf - -C /apps && \
+    mv /apps/apache-tomcat-${TOMCAT_VERSION_FULL} /apps/tomcat && \
+    rm -rf apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz \
+	         apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz.sha512 \
+           /apps/tomcat/webapps/* \
+           /apps/tomcat/BUILDING.txt \
+           /apps/tomcat/*.md \
+           /apps/tomcat/LICENSE \
+           /apps/tomcat/NOTICE \
+           /apps/tomcat/RELEASE-NOTES \
+           /apps/tomcat/RUNNING.txt \
+           /var/cache/apk/*
+
+# Configuration
+#ADD tomcat-users.xml /apps/tomcat/conf/
+#RUN sed -i 's/52428800/5242880000/g' /apps/tomcat/webapps/manager/WEB-INF/web.xml 
+
+# Set environment
+ENV LANG=en_US.UTF-8
+ENV JAVA_HOME /usr/local/${JAVA_PACKAGE}
+ENV PATH ${PATH}:${JAVA_HOME}/bin
+ENV CATALINA_HOME /apps/tomcat
+#ENV APP_DIR=${CATALINA_HOME}/webapps
+
+# Expose web port
+EXPOSE 8080
+
+# Launch Tomcat on startup
+CMD ${CATALINA_HOME}/bin/catalina.sh run
