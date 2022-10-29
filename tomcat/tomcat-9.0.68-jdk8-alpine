@@ -17,6 +17,7 @@ ARG GLIBC_RUL=https://github.com/sgerrand/alpine-pkg-glibc/releases/download
 # Java Version
 #ENV JAVA_VERSION 11
 ENV JAVA_VERSION 8
+ENV JAVA_PACKAGE jdk
 
 # Tomcat Version
 ENV TOMCAT_VERSION_MAJOR 9
@@ -39,6 +40,7 @@ RUN echo -e "http://mirrors.aliyun.com/alpine/v3.16/main\nhttp://mirrors.aliyun.
     rm /etc/apk/keys/sgerrand.rsa.pub && \
     rm -rf glibc-${GLIBC_VERSION}.apk glibc-bin-${GLIBC_VERSION}.apk glibc-i18n-${GLIBC_VERSION}.apk && \
     apk add openjdk${JAVA_VERSION} && \
+    ln -s /usr/lib/jvm/java-1.${JAVA_VERSION}-openjdk/${JAVA_PACKAGE} /usr/local/${JAVA_PACKAGE} && \
     wget http://mirrors.standaloneinstaller.com/apache/tomcat/tomcat-${TOMCAT_VERSION_MAJOR}/v${TOMCAT_VERSION_FULL}/bin/apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz && \
     wget https://www.apache.org/dist/tomcat/tomcat-${TOMCAT_VERSION_MAJOR}/v${TOMCAT_VERSION_FULL}/bin/apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz.sha512 && \
     sha512sum -c apache-tomcat-${TOMCAT_VERSION_FULL}.tar.gz.sha512 && \
@@ -62,8 +64,8 @@ RUN echo -e "http://mirrors.aliyun.com/alpine/v3.16/main\nhttp://mirrors.aliyun.
 
 # Set environment
 ENV LANG=en_US.UTF-8
-#ENV JAVA_HOME /usr/local/${JAVA_PACKAGE}
-#ENV PATH ${PATH}:${JAVA_HOME}/bin
+ENV JAVA_HOME /usr/local/${JAVA_PACKAGE}
+ENV PATH ${PATH}:${JAVA_HOME}/bin
 ENV CATALINA_HOME /apps/tomcat
 #ENV APP_DIR=${CATALINA_HOME}/webapps
 
