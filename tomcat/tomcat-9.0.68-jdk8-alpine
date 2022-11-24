@@ -26,6 +26,7 @@ ENV TOMCAT_VERSION_FULL  9.0.68
 # Install 
 RUN echo -e "http://mirrors.aliyun.com/alpine/v3.16/main\nhttp://mirrors.aliyun.com/alpine/v3.16/community" > /etc/apk/repositories && \
     apk update && \
+    apk add curl && \
     apk add tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone && \
